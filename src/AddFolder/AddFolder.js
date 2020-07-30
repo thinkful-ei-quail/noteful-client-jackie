@@ -1,124 +1,86 @@
-import React, {Component} from 'react';
-import ApiContext from '../ApiContext'
+import React from 'react';
+import ApiContext from '../ApiContext';
+import config from '../config';
+import ValidationError from '../ValidationError/ValidationError'
 
-export default class AddFolder extends Component{
-    static contextType = ApiContext
+export default class AddFolder extends React.Component { 
+    static defaultProps = {
+        history: {
+            goBack: () => { }
+        },
+        match: {
+            params: {}
+        }
+    }
+    static contextType = ApiContext;
     handleSubmit = (e) => {
         e.preventDefault();
-        console.log(this.context.folders)
+        const { name } = e.target;
+        const newFolder = {
+            name: name.value
+        };
+        fetch(`${config.API_ENDPOINT}/folders`, {
+            method: "POST",
+            body: JSON.stringify(newFolder),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(res => {
+                if (!res.ok) {
+                    return res.json().then(error => {
+                        throw error
+                    });
+                }
+                return res.json()
+            })
+            .then(data => {
+                this.context.addFolder(data);
+                this.props.history.push('/');
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        //this.context.addFolder({id: "folder", name: "Name"});
     }
-    
-    render(){
-        return(
-            <div className="folder-form" >
-                <form className="newFolder" onSubmit={ e => this.handleSubmit(e) }>
-                    <label htmlFor="folderName">Folder Name</label>
-                    <input 
-                        type="text"
-                        className="folderName"
-                        id="id"
-                        />     
-                <button type="submit" value="submit">Submit</button>
-                </form>
-            </div>
-        )
+
+    state = {
+        name:{value:"",
+        touched:false,
+        }
+    }
+    handleCancel = (e) => {
+        e.preventDefault();
+        this.props.history.push("/");
+    }
+    updateName(name) {
+        this.setState({
+            name: { value: name, touched: true }
+        })
+    }
+    validateName() {
+        const name = this.state.name
+        if (name.value.length === 0) {
+            return "Name is required";
+        }
+    }
+
+
+    render() {
+        const nameError = this.validateName();
+        return (
+            <form className="add-folder" onSubmit={e => this.handleSubmit(e)}>
+                <label htmlFor="name">Folder Name</label>
+                <input type="text" name="name" id="name" onChange={e => this.updateName(e.target.value)} />
+                {this.state.name.touched && <ValidationError message={nameError} />}
+                <button 
+                    type="submit"
+                    disabled={
+                        this.validateName()
+                    }
+                    >Submit Folder</button>
+                <button type="button" onClick={e => this.handleCancel(e)}>Cancel</button>
+            </form>
+        );
     }
 }
-
-
-// import React, { Component } from 'react';
-// import ApiContext from '../ApiContext'
-// import config from '../config'
-// import ValidationError from "../ValidationError/ValidationError"
-// import './AddNote.css'
-
-// export default class AddNote extends Component {
-//     static contextType = ApiContext;
-
-//     state = {
-//         name:"",
-//         content:"",
-//         id:"",
-//     }
-//     updateName(name) {
-//         this.setState({
-//             name:name
-//         })
-//     }
-
-//     updateContent(content) {
-//         this.setState({
-//             content:content
-//         })
-//     }
-
-//     validateName() {
-//         const name = this.state.name
-//         if (name.length === 0) {
-//             return "Name is required";
-//         }
-//     }
-//     validateContent() {
-//         const content = this.state.content
-//         if (content.length === 0) {
-//             return "Content is required";
-//         }
-//     }
-
-//     handleSubmit = e => {
-//         e.preventDefault()
-//         console.log(this.context.notes)
-//         const { name, content} = this.state
-//         const note = { name, content}
-//         console.log(note)
-//         fetch(`${config.API_ENDPOINT}/notes/`, {
-//             method: 'POST',
-//             body: JSON.stringify(note),
-//             headers: {
-//                 'content-type': 'application/json'
-//             },
-//         })
-//             .then(res => {
-//                 if (!res.ok)
-//                     return res.json().then(e => Promise.reject(e))
-//                 return res.json()
-//             })
-//             .then((data) => {
-//                 this.context.addNote(data)
-//                 this.props.history.push("/")
-//             })
-//             .catch(error => {
-//                 console.error({ error })
-//             })
-//     }
-
-//     render() {
-//         const nameError = this.validateName();
-//         const contentError = this.validateContent();
-//         return (
-//             <div className="note-form">
-//                 <h2>Add New Note</h2>
-//                 <form className="newNote" onSubmit={e => this.handleSubmit(e)}>
-//                     <label htmlFor="note-name">Note Name</label>
-//                     <input
-//                         type="text"
-//                         className="note-name"
-//                         id="name"
-//                         name="name"
-//                         onChange={e => this.updateName(e.target.value)}
-//                     />
-//                     {this.state.name.touched && <ValidationError message={nameError} />}
-//                     <label htmlFor="note-content">Note Content</label>
-//                     <input
-//                         type="text"
-//                         className="note-content"
-//                         name="content"
-//                         onChange={e => this.updateContent(e.target.value)}
-//                     />
-//                     {this.state.name.touched && <ValidationError message={contentError} />}
-//                     <button type="submit" value="submit">Submit</button>
-//                 </form>
-//             </div>
-//         )
-//     }
-// }
