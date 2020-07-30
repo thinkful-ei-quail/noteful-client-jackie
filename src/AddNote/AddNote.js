@@ -3,41 +3,42 @@ import ApiContext from '../ApiContext'
 import config from '../config'
 import ValidationError from "../ValidationError/ValidationError"
 import './AddNote.css'
-import { Route } from 'react-router-dom';
 
 export default class AddNote extends Component {
     static contextType = ApiContext;
 
     state = {
-        name:"",
-        // name:{touch:false},
-        content:"",
-        // content:{touch:false},
+        name:{
+            value:"",
+            touched:false
+        },
+        content:{
+            value:"",
+            touched:false
+        },
         id:"",
     }
     updateName(name) {
         this.setState({
-            name:name,
-            // name:{touch:true}
+            name:{value: name, touched: true}
         })
     }
 
     updateContent(content) {
         this.setState({
-            content:content,
-            // content:{touch:true}
+            content:{value: content, touched: true}
         })
     }
 
     validateName() {
         const name = this.state.name
-        if (name.length === 0) {
+        if (name.value.length === 0) {
             return "Name is required";
         }
     }
     validateContent() {
         const content = this.state.content
-        if (content.length === 0) {
+        if (content.value.length === 0) {
             return "Content is required";
         }
     }
@@ -46,7 +47,7 @@ export default class AddNote extends Component {
         e.preventDefault()
         console.log(this.context.notes)
         const { name, content} = this.state
-        const note = { name, content}
+        const note = { name:name.value, content:content.value}
         console.log(note)
         fetch(`${config.API_ENDPOINT}/notes/`, {
             method: 'POST',
@@ -62,7 +63,7 @@ export default class AddNote extends Component {
             })
             .then((data) => {
                 this.context.addNote(data)
-                this.props.history.push("/");
+                this.props.history.push("/")
             })
             .catch(error => {
                 console.error({ error })
@@ -93,7 +94,14 @@ export default class AddNote extends Component {
                         onChange={e => this.updateContent(e.target.value)}
                     />
                     {this.state.name.touched && <ValidationError message={contentError} />}
-                    <button type="submit" value="submit">Submit</button>
+                    <button 
+                        type="submit" 
+                        value="submit"
+                        disabled={
+                            this.validateName() ||
+                            this.validateName()
+                        }
+                        >Submit</button>
                 </form>
             </div>
         )
