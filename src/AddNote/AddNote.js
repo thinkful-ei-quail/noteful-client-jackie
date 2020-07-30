@@ -10,18 +10,22 @@ export default class AddNote extends Component {
 
     state = {
         name:"",
+        // name:{touch:false},
         content:"",
+        // content:{touch:false},
         id:"",
     }
     updateName(name) {
         this.setState({
-            name:name
+            name:name,
+            // name:{touch:true}
         })
     }
 
     updateContent(content) {
         this.setState({
-            content:content
+            content:content,
+            // content:{touch:true}
         })
     }
 
