@@ -46,8 +46,8 @@ export default class AddNote extends Component {
     handleSubmit = e => {
         e.preventDefault()
         console.log(this.context.notes)
-        const { name, content} = this.state
-        const note = { name:name.value, content:content.value}
+        const { name, content, modified} = this.state
+        const note = { name:name.value, content:content.value, modified:new Date().toLocaleString()}
         console.log(note)
         fetch(`${config.API_ENDPOINT}/notes/`, {
             method: 'POST',
