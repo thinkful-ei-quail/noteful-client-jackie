@@ -18,6 +18,15 @@ export default class AddNote extends Component {
         },
         id:"",
     }
+
+    // getFolders = () => {
+    //     const {folders} = this.context
+    //     console.log(folders)
+    //     return folders.map(folder => {
+    //     return <option name={folder.id}>{folder.name}</option>
+    //     })
+    // }
+
     updateName(name) {
         this.setState({
             name:{value: name, touched: true}
@@ -47,8 +56,9 @@ export default class AddNote extends Component {
         e.preventDefault()
         console.log(this.context.notes)
         const { name, content, modified} = this.state
+
         const note = { name:name.value, content:content.value, modified:new Date().toLocaleString()}
-        console.log(note)
+        console.log(e)
         fetch(`${config.API_ENDPOINT}/notes/`, {
             method: 'POST',
             body: JSON.stringify(note),
@@ -94,6 +104,9 @@ export default class AddNote extends Component {
                         onChange={e => this.updateContent(e.target.value)}
                     />
                     {this.state.name.touched && <ValidationError message={contentError} />}
+                    <select>
+                        {/* {this.getFolders()} */}
+                    </select>
                     <button 
                         type="submit" 
                         value="submit"
