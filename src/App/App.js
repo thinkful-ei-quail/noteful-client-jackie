@@ -43,14 +43,13 @@ class App extends Component {
             notes: this.state.notes.filter(note => note.id !== noteId)
         });
     };
-///////////////////////////////////////////
-///Need to talk to scott and figure out why this doesn't work
+
     handleAddFolder = folder => {
         this.setState({
-            folders: [...this.state.folder, folder]
+            folders: [...this.state.folders, folder]
         })
     }
-//////////////////////////////////////////////
+
     handleAddNote = newNote => {
         this.setState({
             notes: [...this.state.notes, newNote]

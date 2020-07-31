@@ -39,7 +39,7 @@ export default class AddFolder extends React.Component {
                 this.props.history.push("/")
             })
             .catch(err => {
-                console.log({err});
+                console.error(err);
             })
     }
 
