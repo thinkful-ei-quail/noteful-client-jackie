@@ -104,9 +104,9 @@ export default class AddNote extends Component {
                         onChange={e => this.updateContent(e.target.value)}
                     />
                     {this.state.name.touched && <ValidationError message={contentError} />}
-                    <select>
+                    
                         {/* {this.getFolders()} */}
-                    </select>
+                    
                     <button 
                         type="submit" 
                         value="submit"
