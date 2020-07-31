@@ -19,14 +19,6 @@ export default class AddNote extends Component {
         id:"",
     }
 
-    // getFolders = () => {
-    //     const {folders} = this.context
-    //     console.log(folders)
-    //     return folders.map(folder => {
-    //     return <option name={folder.id}>{folder.name}</option>
-    //     })
-    // }
-
     updateName(name) {
         this.setState({
             name:{value: name, touched: true}

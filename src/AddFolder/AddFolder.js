@@ -41,7 +41,6 @@ export default class AddFolder extends React.Component {
             .catch(err => {
                 console.log({err});
             })
-        //this.context.addFolder({id: "folder", name: "Name"});
     }
 
     state = {
