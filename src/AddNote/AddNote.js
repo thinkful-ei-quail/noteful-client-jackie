@@ -79,7 +79,10 @@ export default class AddNote extends Component {
                 console.error({ error })
             })
     }
-
+    handleCancel = (e) => {
+        e.preventDefault();
+        this.props.history.push("/");
+    }
     render() {
         const nameError = this.validateName();
         const contentError = this.validateContent();
@@ -114,7 +117,8 @@ export default class AddNote extends Component {
                             this.validateName() ||
                             this.validateName()
                         }
-                        >Submit</button>
+                        >Submit</button><button type="button" onClick={e => this.handleCancel(e)}>Cancel</button>
+                        
                 </form>
             </div>
         )
