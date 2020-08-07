@@ -47,7 +47,7 @@ export default class AddNote extends Component {
     handleSubmit = e => {
         e.preventDefault()
         console.log(this.context.notes)
-        const { name, content, modified} = this.state
+        const { name, content} = this.state
 
         const note = { name:name.value, content:content.value, modified:new Date().toLocaleString()}
         console.log(e)
@@ -60,13 +60,15 @@ export default class AddNote extends Component {
         })
             .then(res => {
                 if (!res.ok)
-                    return res.json().then(e => Promise.reject(e))
+                    return res.json()
+            .then(e => Promise.reject(e))
                 return res.json()
             })
             .then((data) => {
                 this.context.addNote(data)
                 this.props.history.push("/")
             })
+
             .catch(error => {
                 console.error({ error })
             })
