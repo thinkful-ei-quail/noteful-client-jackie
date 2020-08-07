@@ -43,13 +43,29 @@ export default class AddNote extends Component {
             return "Content is required";
         }
     }
+    getFolders() {
+    return this.context.folders.map((folder) => {
+        return (
+          <option key={folder.id} value={folder.id}>
+            {folder.name}
+          </option>
+        );
+      });
+    };
+    updateFolder = (id) => {
+        this.setState({ folder: { value: id, touched: true } });
+      };
 
     handleSubmit = e => {
         e.preventDefault()
         console.log(this.context.notes)
-        const { name, content} = this.state
+        const { name, content, folder} = this.state
 
-        const note = { name:name.value, content:content.value, modified:new Date().toLocaleString()}
+        const note = { 
+            name:name.value, 
+            content:content.value,
+            folderId: folder.value,
+            modified:new Date().toLocaleString()}
         console.log(e)
         fetch(`${config.API_ENDPOINT}/notes/`, {
             method: 'POST',
@@ -77,6 +93,7 @@ export default class AddNote extends Component {
         e.preventDefault();
         this.props.history.push("/");
     }
+    
     render() {
         const nameError = this.validateName();
         const contentError = this.validateContent();
@@ -101,9 +118,13 @@ export default class AddNote extends Component {
                         onChange={e => this.updateContent(e.target.value)}
                     />
                     {this.state.name.touched && <ValidationError message={contentError} />}
-                    
-                        {/* {this.getFolders()} */}
-                    
+                    <select
+                        name="folder"
+                        onChange={(e) => this.updateFolder(e.target.value)}
+                        >
+                        <option value="">Choose</option>
+                        {this.getFolders()}
+                    </select>
                     <button 
                         type="submit" 
                         value="submit"

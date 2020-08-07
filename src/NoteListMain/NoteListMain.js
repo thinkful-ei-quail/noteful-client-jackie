@@ -6,7 +6,7 @@ import CircleButton from '../CircleButton/CircleButton'
 import ApiContext from '../ApiContext'
 import { getNotesForFolder } from '../notes-helpers'
 import './NoteListMain.css'
-import AddNoteError from '../Error/AddNoteError'
+import AddNoteError from '../Error/ErrorPage'
 
 export default class NoteListMain extends React.Component {
   static defaultProps = {

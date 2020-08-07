@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-export default class AddNoteError extends Component{
+export default class ErrorPage extends Component{
     constructor(props) {
         super(props);
         this.state = {
@@ -13,7 +13,10 @@ export default class AddNoteError extends Component{
     render(){
         if (this.state.hasError) {      
             return (
-              <h2>Could not add note.</h2>
+              <main className="error-page">
+                  <h1>Something seems to have gone wrong</h1>
+                  <p>Try refreshing the page</p>
+              </main>
             );
         }
     return this.props.children;       
