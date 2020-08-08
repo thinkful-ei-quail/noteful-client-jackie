@@ -2,3 +2,38 @@
 body {
     color: #ffffff;
 }
+
+h2 {
+    text-align: center;
+}
+.newNote {
+    width:300px;
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+.newNote input, textarea {
+    flex:1;
+    padding: 5px;
+    margin: 5px 0 5px 0;
+    border-radius: 5px;
+}
+.newNote textarea {
+    min-height: 90px;
+}
+.newNote button {
+    width: 100px;
+    padding: 5px;
+    margin: 10px 10px 0 0;
+    border-radius: 5px;
+}
+.newNote select {
+    width: 100px;
+    padding: 5px;
+    margin: 10px 0 10px 0;
+    border-radius: 5px;
+}
+.error {
+    color:#ff0000;
+}

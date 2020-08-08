@@ -1,9 +1,10 @@
 import React from 'react';
 import ApiContext from '../ApiContext';
 import config from '../config';
-import ValidationError from '../ValidationError/ValidationError'
+import ValidationError from '../ValidationError/ValidationError';
+import './AddFolder.css';
 
-export default class AddFolder extends React.Component { 
+export default class AddFolder extends React.Component {
     static defaultProps = {
         history: {
             goBack: () => { }
@@ -44,8 +45,9 @@ export default class AddFolder extends React.Component {
     }
 
     state = {
-        name:{value:"",
-        touched:false,
+        name: {
+            value: "",
+            touched: false,
         }
     }
     handleCancel = (e) => {
@@ -69,16 +71,17 @@ export default class AddFolder extends React.Component {
         const nameError = this.validateName();
         return (
             <form className="add-folder" onSubmit={e => this.handleSubmit(e)}>
-                <label htmlFor="name">Folder Name</label>
+                <label htmlFor="name">Folder Name: {this.state.name.touched && <ValidationError message={nameError} />}</label>
                 <input type="text" name="name" id="name" onChange={e => this.updateName(e.target.value)} />
-                {this.state.name.touched && <ValidationError message={nameError} />}
-                <button 
-                    type="submit"
-                    disabled={
-                        this.validateName()
-                    }
+                <section>
+                    <button
+                        type="submit"
+                        disabled={
+                            this.validateName()
+                        }
                     >Submit Folder</button>
-                <button type="button" onClick={e => this.handleCancel(e)}>Cancel</button>
+                    <button type="button" onClick={e => this.handleCancel(e)}>Cancel</button>
+                </section>
             </form>
         );
     }

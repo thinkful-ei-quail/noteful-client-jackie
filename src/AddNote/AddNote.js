@@ -108,7 +108,13 @@ export default class AddNote extends Component {
             <div className="note-form">
                 <h2>Add New Note</h2>
                 <form className="newNote" onSubmit={e => this.handleSubmit(e)}>
-                    <label htmlFor="note-name">Note Name</label>
+                <select name="select" onChange={(e) => this.updateFolder(e.target.value)}>
+                        <option value="" name="select">Choose</option>
+                        {this.getFolders()}
+                    </select>
+                    {this.state.name.touched && <ValidationError message={selectError} />}
+                    <label htmlFor="note-name">Note Name:</label>
+                    {this.state.name.touched && <ValidationError message={nameError} />}
                     <input
                         type="text"
                         className="note-name"
@@ -116,21 +122,17 @@ export default class AddNote extends Component {
                         name="name"
                         onChange={e => this.updateName(e.target.value)}
                     />
-                    {this.state.name.touched && <ValidationError message={nameError} />}
-                    <label htmlFor="note-content">Note Content</label>
-                    <input
+                    <label htmlFor="note-content">Note Content:</label>
+                    {this.state.name.touched && <ValidationError message={contentError} />}
+                    <textarea
                         type="text"
                         className="note-content"
                         name="content"
                         onChange={e => this.updateContent(e.target.value)}
                     />
-                    {this.state.name.touched && <ValidationError message={contentError} />}
-                    <select name="select" onChange={(e) => this.updateFolder(e.target.value)}>
-                        <option value="" name="select">Choose</option>
-                        {this.getFolders()}
-                    </select>
-                    {this.state.name.touched && <ValidationError message={selectError} />}
-                    <button
+                    
+                    
+                    <section><button
                         type="submit"
                         value="submit"
                         disabled={
@@ -138,7 +140,9 @@ export default class AddNote extends Component {
                             this.validateContent() ||
                             this.validateFolder()
                         }
-                    >Submit</button><button type="button" onClick={e => this.handleCancel(e)}>Cancel</button>
+                    >Submit</button>
+                    <button type="button" onClick={e => this.handleCancel(e)}>Cancel</button>
+                    </section>
                 </form>
             </div>
         )
