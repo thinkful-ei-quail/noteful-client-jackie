@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ApiContext from '../ApiContext'
 import config from '../config'
+import PropTypes from 'prop-types';
 import ValidationError from "../ValidationError/ValidationError"
 import './AddNote.css'
 
@@ -147,4 +148,7 @@ export default class AddNote extends Component {
             </div>
         )
     }
+}
+AddNote.PropTypes = {
+    note: PropTypes.array
 }

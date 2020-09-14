@@ -1,7 +1,7 @@
 import React from 'react';
-import { shallow } from 'enzyme'
-import toJson from 'enzyme-to-json'
-import NoteListNav from './NoteListNav'
+import { shallow } from 'enzyme';
+import toJson from 'enzyme-to-json';
+import NoteListNav from './NoteListNav';
 
 describe(`NoteListNav component`, () => {
   it('renders a .NoteListNav by default', () => {
